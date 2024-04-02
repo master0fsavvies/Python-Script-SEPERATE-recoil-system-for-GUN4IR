@@ -28,3 +28,39 @@ MODIFICATIONS
 For more rapid fire or heat control, you can mess with the delay() function in the BOTHFIREAS.ino file.
 For the previously mentioned game controlled recoil, you can have the game send 1, 2, 3, or 4 to the COM port
 of the arduino.
+
+TROUBLESHOOTING
+
+Q. I got the following, what happened?
+"Press any key to continue . . . Traceback (most recent call last):
+  File "C:\Users\maste\Desktop\RECOIL\bothfire.py", line 6, in <module>
+    arduino = serial.Serial('COM3', 9600, timeout=.1)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\site-packages\serial\serialwin32.py", line 33, in __init__
+    super(Serial, self).__init__(*args, **kwargs)
+  File "C:\Python311\Lib\site-packages\serial\serialutil.py", line 244, in __init__
+    self.open()
+  File "C:\Python311\Lib\site-packages\serial\serialwin32.py", line 64, in open
+    raise SerialException("could not open port {!r}: {!r}".format(self.portstr, ctypes.WinError()))
+serial.serialutil.SerialException: could not open port 'COM3': FileNotFoundError(2, 'The system cannot find the file specified.', None, 2)"
+
+A. This means that you do not have the correct COM port for your arduino. Either edit the .py code to use the correct port, or make your arduino use COM port 3.
+
+
+Q. Solenoid works, but after repeated use, gets stuck in the ON position.
+
+A. First, immediately unplug the system, never let the solenoid get hot.
+This is likely caused by not using a flyback diode, it protects the relay or transmitter or whatever is controlling your powersource.
+
+
+Q. My computer doesn't like the .bat file, it blocks it from running.
+
+A. This file does not edit files in any way, it is completely safe. Either run it with administrator priveleges or put it on an 'allowed list' on your antivirus.
+
+Q. Does this support non GUN4IR systems like the synden lightgun?
+
+A. As long as it sends a mouseclick or a keypress, it is supported. If you wanted to use more than one, then they cannot share the same output button. For instance, you can use a gun that uses a mouseclick for the trigger, but it wouldn't support a second gun with the mouseclick. However, if it were hooked up to the rightmouse click or the z key, it would work.
+
+Q. What power source should I use?
+
+A. Any amount of volts will work for this system, just make sure that your solenoid is rated for it and all your components can handle it and are safe.
