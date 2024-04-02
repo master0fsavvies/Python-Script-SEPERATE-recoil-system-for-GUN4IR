@@ -2,18 +2,14 @@
 
 const int solenoid1Pin = 7;
 const int solenoid2Pin = 8;
-const int buttonPin = 9;
 bool shouldFire1 = false;
 bool shouldFire2 = false;
 int toggleState = HIGH;
-int lastButtonState = HIGH;
-bool isToggleOn = false;
-int buttonState = HIGH;
+bool singleFire = false;
 
 
 void setup() {
   Serial.begin(9600);
-  pinMode(buttonPin, INPUT);
   pinMode(solenoid1Pin, OUTPUT);
   pinMode(solenoid2Pin, OUTPUT);
   digitalWrite(solenoid1Pin, LOW);
@@ -23,28 +19,26 @@ void setup() {
 void loop() {
   if (Serial.available() > 0) {
     char inChar = Serial.read();
-    if (inChar == '1' && !shouldFire1) {
+    if (inChar == '1' && !shouldFire1) { //trigger is pulled gun1
       shouldFire1 = true;
-      delay(15);
       digitalWrite(solenoid1Pin, HIGH);
     }
-    if (inChar == '2') {
+    if (inChar == '2') { //released trigger gun1
       shouldFire1 = false;
     }
-    if (inChar == '3' && !shouldFire2) {
+    if (inChar == '3' && !shouldFire2) { //trigger is pulled gun2
       shouldFire2 = true;
-      delay(15);
       digitalWrite(solenoid2Pin, HIGH);
     }
-    if (inChar == '4') {
+    if (inChar == '4') { //released trigger gun2
       shouldFire2 = false;
     }
-    if (inChar == '5') {
-      isToggleOn = !isToggleOn;
+    if (inChar == '5') { //switches between autofire and singlefire
+      singleFire = !singleFire;
     }
   }
-  if(!isToggleOn){
-    if(shouldFire1 && shouldFire2){
+  if(!singleFire){
+    if(shouldFire1 && shouldFire2){ //both triggers are pulled in autofire
       digitalWrite(solenoid1Pin, HIGH);
       digitalWrite(solenoid2Pin, HIGH);
       delay(40);
@@ -53,13 +47,13 @@ void loop() {
       delay(70);
     }
     else {
-      if(shouldFire1 && !shouldFire2){
+      if(shouldFire1 && !shouldFire2){ //only gun1 fires in autofire
         digitalWrite(solenoid1Pin, HIGH);
         delay(40);
         digitalWrite(solenoid1Pin, LOW);
         delay(70);
       }
-      if(shouldFire2 && !shouldFire1){
+      if(shouldFire2 && !shouldFire1){ //only gun2 fires in autofire
         digitalWrite(solenoid2Pin, HIGH);
         delay(40);
         digitalWrite(solenoid2Pin, LOW);
@@ -68,12 +62,12 @@ void loop() {
     }
   }
   else{
-    if(shouldFire1){
+    if(shouldFire1){ //gun1 fires in singlefire
       delay(40);
       digitalWrite(solenoid1Pin, LOW);
       shouldFire1 = false;
     }
-    if(shouldFire2){
+    if(shouldFire2){ //gun2 fires in single fire
       delay(40);
       digitalWrite(solenoid2Pin, LOW);
       shouldFire2 = false;
