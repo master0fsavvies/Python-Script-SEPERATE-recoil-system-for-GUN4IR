@@ -14,6 +14,8 @@ Use the BOTHREGULAR.bat or the BOTHSWAPPED.bat to run their respective python sc
 Take an arduino chip and upload the BOTHFIREAS.ino code to run, and keep it plugged into the computer. 
 I used an arduino UNO, but I'm sure any of them would work. The arduino's 7 and 8 pins control the flow
 of a powersource. Transistors are cheaper but difficult to use, but I was using a relay at the time which is simpler.
+Also, you must make sure that the COM port in the .py codes correspond to what the arduino chip uses. There are a few ways to find out,
+but I found mine in the arduino IDE by hitting 'tools' at the top menu bar, and it shows the port there.
 
 TESTING/USE
 
